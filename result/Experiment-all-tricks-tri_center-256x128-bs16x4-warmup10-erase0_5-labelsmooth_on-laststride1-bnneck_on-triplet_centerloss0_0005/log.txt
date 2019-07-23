@@ -1,0 +1,134 @@
+2019-05-27 09:19:49,790 reid_baseline INFO: Using 1 GPUS
+2019-05-27 09:19:49,790 reid_baseline INFO: Namespace(cfg='configs/cls_hrnet_w32_sgd_lr5e-2_wd1e-4_bs32_x100.yaml', config_file='configs/softmax_triplet_with_center.yml', opts=[])
+2019-05-27 09:19:49,791 reid_baseline INFO: Loaded configuration file configs/softmax_triplet_with_center.yml
+2019-05-27 09:19:49,791 reid_baseline INFO: 
+MODEL:
+  PRETRAIN_PATH: '/media/models/hrnetv2_w32_imagenet_pretrained.pth'
+  METRIC_LOSS_TYPE: 'triplet_center'
+  IF_LABELSMOOTH: 'on'
+  IF_WITH_CENTER: 'yes'
+
+
+INPUT:
+  SIZE_TRAIN: [256, 128]
+  SIZE_TEST: [256, 128]
+  PROB: 0.5 # random horizontal flip
+  RE_PROB: 0.5 # random erasing
+  PADDING: 10
+
+DATASETS:
+  NAMES: ('market1501')
+  # NAMES: ('cuhk03')
+  # NAMES: ('dukemtmc')
+
+DATALOADER:
+  SAMPLER: 'softmax_triplet'
+  NUM_INSTANCE: 4
+  NUM_WORKERS: 8
+
+SOLVER:
+  OPTIMIZER_NAME: 'Adam'
+  MAX_EPOCHS: 120
+  BASE_LR: 0.00035
+
+  CLUSTER_MARGIN: 0.3
+
+  CENTER_LR: 0.5
+  CENTER_LOSS_WEIGHT: 0.0005
+
+  RANGE_K: 2
+  RANGE_MARGIN: 0.3
+  RANGE_ALPHA: 0
+  RANGE_BETA: 1
+  RANGE_LOSS_WEIGHT: 1
+
+  BIAS_LR_FACTOR: 1
+  WEIGHT_DECAY: 0.0005
+  WEIGHT_DECAY_BIAS: 0.0005
+  IMS_PER_BATCH: 64
+
+  STEPS: [40, 70]
+  GAMMA: 0.1
+
+  WARMUP_FACTOR: 0.01
+  WARMUP_ITERS: 10
+  WARMUP_METHOD: 'linear'
+
+  CHECKPOINT_PERIOD: 120
+  LOG_PERIOD: 120
+  EVAL_PERIOD: 120
+
+TEST:
+  IMS_PER_BATCH: 256
+  RE_RANKING: 'no'
+  WEIGHT: "/home/sq/gait_recognition/reid_stage_submit/result/Experiment-all-tricks-tri_center-256x128-bs16x4-warmup10-erase0_5-labelsmooth_on-laststride1-bnneck_on-triplet_centerloss0_0005/resnet50_model_120.pth"
+  NECK_FEAT: 'after'
+  FEAT_NORM: 'yes'
+
+OUTPUT_DIR: "/home/sq/gait_recognition/reid_stage_submit/result/Experiment-all-tricks-tri_center-256x128-bs16x4-warmup10-erase0_5-labelsmooth_on-laststride1-bnneck_on-triplet_centerloss0_0005"
+
+
+
+2019-05-27 09:19:49,791 reid_baseline INFO: Running with config:
+DATALOADER:
+  NUM_INSTANCE: 4
+  NUM_WORKERS: 8
+  SAMPLER: softmax_triplet
+DATASETS:
+  NAMES: market1501
+  ROOT_DIR: /home/lg/dataset
+INPUT:
+  PADDING: 10
+  PIXEL_MEAN: [0.485, 0.456, 0.406]
+  PIXEL_STD: [0.229, 0.224, 0.225]
+  PROB: 0.5
+  RE_PROB: 0.5
+  SIZE_TEST: [256, 128]
+  SIZE_TRAIN: [256, 128]
+MODEL:
+  DEVICE: cuda
+  DEVICE_ID: 1
+  IF_LABELSMOOTH: on
+  IF_WITH_CENTER: yes
+  LAST_STRIDE: 1
+  METRIC_LOSS_TYPE: triplet_center
+  NAME: resnet50
+  NECK: bnneck
+  PRETRAIN_PATH: /media/models/hrnetv2_w32_imagenet_pretrained.pth
+OUTPUT_DIR: /home/sq/gait_recognition/reid_stage_submit/result/Experiment-all-tricks-tri_center-256x128-bs16x4-warmup10-erase0_5-labelsmooth_on-laststride1-bnneck_on-triplet_centerloss0_0005
+SOLVER:
+  BASE_LR: 0.00035
+  BIAS_LR_FACTOR: 1
+  CENTER_LOSS_WEIGHT: 0.0005
+  CENTER_LR: 0.5
+  CHECKPOINT_PERIOD: 120
+  CLUSTER_MARGIN: 0.3
+  EVAL_PERIOD: 120
+  GAMMA: 0.1
+  IMS_PER_BATCH: 64
+  LOG_PERIOD: 120
+  MARGIN: 0.3
+  MAX_EPOCHS: 120
+  MOMENTUM: 0.9
+  OPTIMIZER_NAME: Adam
+  RANGE_ALPHA: 0
+  RANGE_BETA: 1
+  RANGE_K: 2
+  RANGE_LOSS_WEIGHT: 1
+  RANGE_MARGIN: 0.3
+  STEPS: (40, 70)
+  WARMUP_FACTOR: 0.01
+  WARMUP_ITERS: 10
+  WARMUP_METHOD: linear
+  WEIGHT_DECAY: 0.0005
+  WEIGHT_DECAY_BIAS: 0.0005
+TEST:
+  FEAT_NORM: yes
+  IMS_PER_BATCH: 256
+  NECK_FEAT: after
+  RE_RANKING: no
+  WEIGHT: /home/sq/gait_recognition/reid_stage_submit/result/Experiment-all-tricks-tri_center-256x128-bs16x4-warmup10-erase0_5-labelsmooth_on-laststride1-bnneck_on-triplet_centerloss0_0005/resnet50_model_120.pth
+2019-05-27 09:19:59,255 reid_baseline.train INFO: Start training
+2019-05-27 09:21:50,657 reid_baseline.train INFO: Epoch[1] Iteration[120/186] Loss: 9.436, Acc: 0.001, Base Lr: 3.50e-06
+2019-05-27 09:22:43,566 reid_baseline.train INFO: Epoch 1 done. Time per batch: 163.139[s] Speed: 71.8[samples/s]
+2019-05-27 09:22:43,567 reid_baseline.train INFO: ----------
